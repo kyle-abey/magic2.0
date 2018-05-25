@@ -8,9 +8,10 @@ function generateDrop(posLeft, posTop, d) {
     document.getElementById('content').appendChild(drop);
 }
 
-function newDrop() {
-    var x = Math.floor(Math.random() * 2000) + 50,
-        y = Math.floor(Math.random() * -200) -100
+function newDrop(num) {
+    var x = Math.floor(Math.random() * 2000) + 50;
+    var y = Math.floor(Math.random() * -200) - 100;
+    var num = num;
     generateDrop(x, y, num);
     num--;
     if (num > 0) {
@@ -19,9 +20,26 @@ function newDrop() {
     }
 }
 
-function rainBrandon() {
-    num = Infinity;
-    newDrop();
+window.addEventListener("keypress", addBrandon);
+
+function addBrandon(event) {
+    if (event.key === "w") {
+        var num = 1;
+    } else if (event.key === "a") {
+        var num = 10;
+    } else if (event.key === "s") {
+        var num = 50;
+    } else if (event.key === "p") {
+        var num = Infinity;
+    } else {
+        var num = num;
+    }
+    return rainBrandon(num);
+}
+
+function rainBrandon(num) {
+    var num = num;
+    newDrop(num);
     interval = setInterval(function () {
         var drops = document.getElementsByClassName('rain'),
             newYpos;
@@ -56,16 +74,16 @@ container.addEventListener("mousemove", moveThing);
 
 function moveThing(event) {
     var xPosition = event.clientX - container.getBoundingClientRect().left - (thing.clientWidth / 2);
-	var yPosition = event.clientY - container.getBoundingClientRect().top - (thing.clientHeight / 2);
-	// in case of a wide border, the boarder-width needs to be considered in the formula above
-	thing.style.left = xPosition + "px";
-	thing.style.top = yPosition + "px";
+    var yPosition = event.clientY - container.getBoundingClientRect().top - (thing.clientHeight / 2);
+    // in case of a wide border, the boarder-width needs to be considered in the formula above
+    thing.style.left = xPosition + "px";
+    thing.style.top = yPosition + "px";
 }
 
 window.addEventListener("keypress", changeThingColor);
 
 function changeThingColor(event) {
-    if (event.key === "b"){
+    if (event.key === "b") {
         thing.style.background = "blue";
     } else if (event.key === "o") {
         thing.style.background = "orange";
